@@ -1,9 +1,6 @@
-from itertools import product
+from flask import render_template, request
 
-from flask import Flask, render_template, request
-from unicodedata import category
-
-app = Flask(__name__)
+from eapp import app
 
 
 @app.route('/')
@@ -46,11 +43,19 @@ def index():
 
     kw = request.args.get('kw')
 
-
     if kw:
-        products=[p for p in products if p['name'].find(kw)>=0]
+        products = [p for p in products if p['name'].find(kw) >= 0]
 
     return render_template('index.html', categories=categories, products=products)
+
+
+@app.route('/login')
+def login_view():
+    return render_template('login.html')
+
+@app.route('/register')
+def register_view():
+    return render_template('register.html')
 
 if __name__ == '__main__':
     with app.app_context():
